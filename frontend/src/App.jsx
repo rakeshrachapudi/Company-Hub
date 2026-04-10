@@ -1,13 +1,69 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React,{ useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Hero from './components/Hero';
+import StatsSection from './components/StatsSection';
 import Filters from './components/Filters';
 import CompanyCard from './components/CompanyCard';
 import Pagination from './components/Pagination';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const ITEMS_PER_PAGE = 6;
+
+const SkeletonCard = () => {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="animate-pulse">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <div className="h-5 w-2/3 rounded bg-slate-200" />
+            <div className="mt-3 h-4 w-1/3 rounded bg-slate-100" />
+          </div>
+          <div className="h-6 w-20 rounded-full bg-slate-100" />
+        </div>
+
+        <div className="mt-6 space-y-4">
+          <div className="rounded-xl bg-slate-50 p-4">
+            <div className="h-3 w-20 rounded bg-slate-200" />
+            <div className="mt-3 h-4 w-24 rounded bg-slate-100" />
+          </div>
+          <div className="rounded-xl bg-slate-50 p-4">
+            <div className="h-3 w-20 rounded bg-slate-200" />
+            <div className="mt-3 h-4 w-28 rounded bg-slate-100" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EmptyState = () => {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
+        <svg
+          className="h-6 w-6 text-slate-600"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 7h16M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+          />
+        </svg>
+      </div>
+
+      <h3 className="mt-4 text-lg font-medium text-slate-900">No companies found</h3>
+      <p className="mt-2 text-sm text-slate-600">
+        Try adjusting the search query or clearing one of the filters.
+      </p>
+    </div>
+  );
+};
 
 function App() {
   const [companies, setCompanies] = useState([]);
@@ -76,7 +132,6 @@ function App() {
   }, [companies, searchTerm, selectedLocation, selectedIndustry, sortOrder]);
 
   useEffect(() => {
-    // Reset page whenever filter conditions change to avoid invalid page states
     setCurrentPage(1);
   }, [searchTerm, selectedLocation, selectedIndustry, sortOrder]);
 
@@ -100,22 +155,7 @@ function App() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
-        {/* Hero section: premium but restrained, using only one subtle gradient area */}
-        <section className="rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 text-white">
-          <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200 ring-1 ring-white/15">
-            Production-ready directory
-          </span>
-
-          <div className="mt-4 max-w-3xl">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Discover and manage companies with clarity.
-            </h1>
-            <p className="mt-3 text-sm text-slate-300">
-              CompanyHub helps teams browse, search, filter, and organize company
-              information through a premium, enterprise-grade directory experience.
-            </p>
-          </div>
-        </section>
+        <Hero />
 
         <Filters
           searchTerm={searchTerm}
@@ -131,36 +171,40 @@ function App() {
           onReset={handleResetFilters}
         />
 
+        <StatsSection
+          totalCompanies={companies.length}
+          showingCount={paginatedCompanies.length}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+
         <section id="companies" className="space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-lg font-medium text-slate-900">Companies</h2>
               <p className="mt-1 text-sm text-slate-600">
-                Showing {paginatedCompanies.length} of {filteredCompanies.length} matching companies.
+                Explore structured company records in a premium directory layout.
               </p>
             </div>
 
-            <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600">
+            <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 shadow-sm">
               {ITEMS_PER_PAGE} per page
             </div>
           </div>
 
           {loading ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-              <p className="text-sm text-slate-600">Loading companies...</p>
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
             </div>
           ) : error ? (
             <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-              <h3 className="text-lg font-medium text-slate-900">Unable to load data</h3>
+              <h3 className="text-lg font-medium text-slate-900">Unable to load companies</h3>
               <p className="mt-2 text-sm text-slate-600">{error}</p>
             </div>
           ) : filteredCompanies.length === 0 ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-              <h3 className="text-lg font-medium text-slate-900">No companies found</h3>
-              <p className="mt-2 text-sm text-slate-600">
-                Try adjusting your search, filters, or sorting options.
-              </p>
-            </div>
+            <EmptyState />
           ) : (
             <>
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
