@@ -1,22 +1,124 @@
 {
   "companies": [
-    { "id": 1, "name": "TechNova Solutions", "location": "Hyderabad", "industry": "Technology" },
-    { "id": 2, "name": "GreenLeaf Organics", "location": "Bengaluru", "industry": "Agriculture" },
-    { "id": 3, "name": "Skyline Infra", "location": "Mumbai", "industry": "Construction" },
-    { "id": 4, "name": "MediCore Labs", "location": "Chennai", "industry": "Healthcare" },
-    { "id": 5, "name": "FinEdge Capital", "location": "Pune", "industry": "Finance" },
-    { "id": 6, "name": "EduSpark Learning", "location": "Delhi", "industry": "Education" },
-    { "id": 7, "name": "RetailNest", "location": "Hyderabad", "industry": "Retail" },
-    { "id": 8, "name": "CloudAxis Systems", "location": "Bengaluru", "industry": "Technology" },
-    { "id": 9, "name": "UrbanCart Logistics", "location": "Kolkata", "industry": "Logistics" },
-    { "id": 10, "name": "FoodMingle Pvt Ltd", "location": "Mumbai", "industry": "Food & Beverage" },
-    { "id": 11, "name": "SecureGrid Analytics", "location": "Noida", "industry": "Cybersecurity" },
-    { "id": 12, "name": "BuildSphere Projects", "location": "Ahmedabad", "industry": "Construction" },
-    { "id": 13, "name": "CareBridge Hospitals", "location": "Chennai", "industry": "Healthcare" },
-    { "id": 14, "name": "InsightHive Media", "location": "Delhi", "industry": "Media" },
-    { "id": 15, "name": "TravelMint Holidays", "location": "Goa", "industry": "Travel" },
-    { "id": 16, "name": "AutoPulse Mobility", "location": "Pune", "industry": "Automobile" },
-    { "id": 17, "name": "NextGen Realty", "location": "Hyderabad", "industry": "Real Estate" },
-    { "id": 18, "name": "DataQuotient AI", "location": "Bengaluru", "industry": "Artificial Intelligence" }
+    {
+      "id": 1775829656095,
+      "name": "Frontlines Edutech Private Limited",
+      "location": "New York",
+      "industry": "Education & Consultancy"
+    },
+    {
+      "id": 1775829352487,
+      "name": "Aspiron Software Solutions Private Limited",
+      "location": "Hyderabad",
+      "industry": "Software"
+    },
+    {
+      "id": 1,
+      "name": "TechNova Solutions",
+      "location": "Hyderabad",
+      "industry": "Technology"
+    },
+    {
+      "id": 2,
+      "name": "GreenLeaf Organics",
+      "location": "Bengaluru",
+      "industry": "Agriculture"
+    },
+    {
+      "id": 3,
+      "name": "Skyline Infra",
+      "location": "Mumbai",
+      "industry": "Construction"
+    },
+    {
+      "id": 4,
+      "name": "MediCore Labs",
+      "location": "Chennai",
+      "industry": "Healthcare"
+    },
+    {
+      "id": 5,
+      "name": "FinEdge Capital",
+      "location": "Pune",
+      "industry": "Finance"
+    },
+    {
+      "id": 6,
+      "name": "EduSpark Learning",
+      "location": "Delhi",
+      "industry": "Education"
+    },
+    {
+      "id": 7,
+      "name": "RetailNest",
+      "location": "Hyderabad",
+      "industry": "Retail"
+    },
+    {
+      "id": 8,
+      "name": "CloudAxis Systems",
+      "location": "Bengaluru",
+      "industry": "Technology"
+    },
+    {
+      "id": 9,
+      "name": "UrbanCart Logistics",
+      "location": "Kolkata",
+      "industry": "Logistics"
+    },
+    {
+      "id": 10,
+      "name": "FoodMingle Pvt Ltd",
+      "location": "Mumbai",
+      "industry": "Food & Beverage"
+    },
+    {
+      "id": 11,
+      "name": "SecureGrid Analytics",
+      "location": "Noida",
+      "industry": "Cybersecurity"
+    },
+    {
+      "id": 12,
+      "name": "BuildSphere Projects",
+      "location": "Ahmedabad",
+      "industry": "Construction"
+    },
+    {
+      "id": 13,
+      "name": "CareBridge Hospitals",
+      "location": "Chennai",
+      "industry": "Healthcare"
+    },
+    {
+      "id": 14,
+      "name": "InsightHive Media",
+      "location": "Delhi",
+      "industry": "Media"
+    },
+    {
+      "id": 15,
+      "name": "TravelMint Holidays",
+      "location": "Goa",
+      "industry": "Travel"
+    },
+    {
+      "id": 16,
+      "name": "AutoPulse Mobility",
+      "location": "Pune",
+      "industry": "Automobile"
+    },
+    {
+      "id": 17,
+      "name": "NextGen Realty",
+      "location": "Hyderabad",
+      "industry": "Real Estate"
+    },
+    {
+      "id": 18,
+      "name": "DataQuotient AI",
+      "location": "Bengaluru",
+      "industry": "Artificial Intelligence"
+    }
   ]
 }

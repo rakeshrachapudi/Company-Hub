@@ -47,23 +47,31 @@ app.post('/companies', async (req, res) => {
     const { name, location, industry } = req.body;
 
     if (!name || !location || !industry) {
-      return res.status(400).json({ message: 'name, location, and industry are required' });
+      return res.status(400).json({
+        message: 'name, location, and industry are required'
+      });
     }
 
-    const companies = await readDatabase();
+    const data = await fs.readJson(dbPath);
+    const companies = data.companies || [];
+
     const newCompany = {
-      id: companies.length ? Math.max(...companies.map((company) => company.id)) + 1 : 1,
+      id: Date.now(),
       name,
       location,
       industry
     };
 
-    companies.push(newCompany);
-    await writeDatabase(companies);
+    companies.unshift(newCompany);
+
+    await fs.writeJson(dbPath, { companies }, { spaces: 2 });
 
     res.status(201).json(newCompany);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to add company', error: error.message });
+    res.status(500).json({
+      message: 'Failed to add company',
+      error: error.message
+    });
   }
 });
 

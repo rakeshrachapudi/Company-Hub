@@ -7,6 +7,7 @@ import StatsSection from './components/StatsSection';
 import Filters from './components/Filters';
 import CompanyCard from './components/CompanyCard';
 import Pagination from './components/Pagination';
+import AddCompanyModal from './components/AddCompanyModal';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const ITEMS_PER_PAGE = 6;
@@ -65,6 +66,36 @@ const EmptyState = () => {
   );
 };
 
+const SuccessToast = ({ message, onClose }) => {
+  if (!message) return null;
+
+  return (
+    <div className="fixed right-4 top-20 z-[70]">
+      <div className="rounded-xl border border-emerald-200 bg-white px-4 py-3 shadow-lg">
+        <div className="flex items-start gap-3">
+          <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">
+            ✓
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-slate-900">Success</p>
+            <p className="text-sm text-slate-600">{message}</p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 transition hover:text-slate-700"
+            aria-label="Close toast"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -74,6 +105,10 @@ function App() {
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Modal + toast state
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -92,6 +127,16 @@ function App() {
 
     fetchCompanies();
   }, []);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+
+    const timeout = setTimeout(() => {
+      setToastMessage('');
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [toastMessage]);
 
   const uniqueLocations = useMemo(() => {
     return [...new Set(companies.map((company) => company.location))].sort((a, b) =>
@@ -150,12 +195,24 @@ function App() {
     setCurrentPage(1);
   };
 
+  const handleAddCompany = async (companyData) => {
+    const response = await axios.post(`${API_URL}/companies`, companyData);
+
+    // Add new company instantly to UI without full page reload
+    setCompanies((previousCompanies) => [response.data, ...previousCompanies]);
+    setCurrentPage(1);
+    setToastMessage('Company added successfully.');
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
+      <SuccessToast message={toastMessage} onClose={() => setToastMessage('')} />
 
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
         <Hero />
+
+        
 
         <Filters
           searchTerm={searchTerm}
@@ -183,13 +240,37 @@ function App() {
             <div>
               <h2 className="text-lg font-medium text-slate-900">Companies</h2>
               <p className="mt-1 text-sm text-slate-600">
-                Explore structured company records in a premium directory layout.
+                Explore structured company records in a directory layout.
               </p>
             </div>
+          
+            {/* <div className='flex flex-row'>
+                <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 shadow-sm">
+                  {ITEMS_PER_PAGE} per page
+                </div>
 
-            <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 shadow-sm">
-              {ITEMS_PER_PAGE} per page
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(true)}
+                    className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                  >
+                    Add Company
+                  </button>
+                  </div>
+                </div>
+            */}
+          
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(true)}
+                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+              >
+                Add Company
+              </button>
             </div>
+
           </div>
 
           {loading ? (
@@ -224,6 +305,12 @@ function App() {
       </main>
 
       <Footer />
+
+      <AddCompanyModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onAddCompany={handleAddCompany}
+      />
     </div>
   );
 }

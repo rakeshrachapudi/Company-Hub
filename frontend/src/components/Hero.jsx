@@ -15,7 +15,7 @@ const Hero = () => {
         </span>
 
         <h1 className="mt-4 text-2xl font-semibold tracking-tight text-white">
-          Discover companies through a premium, enterprise-grade interface.
+          Discover companies through an enterprise-grade interface.
         </h1>
 
         <p className="mt-3 max-w-2xl text-sm text-slate-300">

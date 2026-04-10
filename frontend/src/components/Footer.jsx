@@ -8,7 +8,7 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-semibold text-slate-900">CompanyHub</h3>
             <p className="mt-3 text-sm text-slate-600">
-              A production-ready companies directory designed with a premium SaaS experience.
+              A companies directory designed with a premium SaaS experience.
             </p>
           </div>
 
