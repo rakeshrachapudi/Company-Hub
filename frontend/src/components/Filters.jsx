@@ -13,23 +13,23 @@ const Filters = ({
   industries,
   onReset
 }) => {
-  const inputClassName =
-    'w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500';
+  const controlClassName =
+    'w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition duration-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500';
 
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-lg font-medium text-slate-900">Refine results</h2>
+          <h2 className="text-lg font-medium text-slate-900">Refine directory</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Search, filter, and sort companies with a clean enterprise workflow.
+            Search, filter, and sort company records using consistent controls.
           </p>
         </div>
 
         <button
           type="button"
           onClick={onReset}
-          className="hidden rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 sm:inline-flex"
+          className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition duration-200 hover:scale-[1.02] hover:bg-indigo-700"
         >
           Reset Filters
         </button>
@@ -43,10 +43,10 @@ const Filters = ({
           <input
             id="search"
             type="text"
+            placeholder="Search companies..."
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search companies..."
-            className={inputClassName}
+            className={controlClassName}
           />
         </div>
 
@@ -58,7 +58,7 @@ const Filters = ({
             id="location"
             value={selectedLocation}
             onChange={(event) => setSelectedLocation(event.target.value)}
-            className={inputClassName}
+            className={controlClassName}
           >
             <option value="">All Locations</option>
             {locations.map((location) => (
@@ -77,7 +77,7 @@ const Filters = ({
             id="industry"
             value={selectedIndustry}
             onChange={(event) => setSelectedIndustry(event.target.value)}
-            className={inputClassName}
+            className={controlClassName}
           >
             <option value="">All Industries</option>
             {industries.map((industry) => (
@@ -96,22 +96,12 @@ const Filters = ({
             id="sort"
             value={sortOrder}
             onChange={(event) => setSortOrder(event.target.value)}
-            className={inputClassName}
+            className={controlClassName}
           >
             <option value="asc">A-Z</option>
             <option value="desc">Z-A</option>
           </select>
         </div>
-      </div>
-
-      <div className="mt-4 sm:hidden">
-        <button
-          type="button"
-          onClick={onReset}
-          className="inline-flex w-full items-center justify-center rounded-lg bg-indigo-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-indigo-700"
-        >
-          Reset Filters
-        </button>
       </div>
     </section>
   );

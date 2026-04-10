@@ -1,35 +1,42 @@
 import React from 'react';
 
+const navItems = [
+  { label: 'Home', href: '#', active: true },
+  { label: 'Companies', href: '#companies', active: false }
+];
+
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-xl shadow-sm">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex h-16 items-center justify-between">
-          {/* Brand kept minimal to match premium SaaS products */}
+          
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-sm font-semibold text-white shadow-sm">
-              C
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-sm font-semibold text-white shadow-sm">
+              CH
             </div>
+
             <div>
               <p className="text-sm font-semibold text-slate-900">CompanyHub</p>
-              <p className="text-xs text-slate-600">Enterprise company directory</p>
+              <p className="text-xs text-slate-600">Companies directory</p>
             </div>
           </div>
 
-          {/* Small, clean nav items to keep header uncluttered */}
-          <nav className="flex items-center gap-6">
-            <a
-              href="#"
-              className="text-sm font-medium text-slate-600 transition hover:text-slate-900"
-            >
-              Home
-            </a>
-            <a
-              href="#companies"
-              className="text-sm font-medium text-slate-600 transition hover:text-slate-900"
-            >
-              Companies
-            </a>
+          {/* Active link gets a subtle filled background instead of loud colors */}
+          <nav className="flex items-center gap-2">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                  item.active
+                    ? 'bg-slate-100 text-slate-900'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
         </div>
       </div>
