@@ -1,6 +1,12 @@
 {
   "companies": [
     {
+      "id": 1775849632078,
+      "name": "Google",
+      "location": "Arctic",
+      "industry": "Searching"
+    },
+    {
       "id": 1775829656095,
       "name": "Frontlines Edutech Private Limited",
       "location": "New York",

@@ -11,24 +11,24 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition duration-200 hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-300 backdrop-blur-md transition duration-300 hover:bg-white/15 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
       >
         Previous
       </button>
 
       {pages.map((page) => {
-        const isActive = currentPage === page;
+        const isActive = page === currentPage;
 
         return (
           <button
             key={page}
             type="button"
             onClick={() => onPageChange(page)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition duration-200 ${
+            className={
               isActive
-                ? 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700'
-                : 'border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-            }`}
+                ? 'rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_24px_rgba(99,102,241,0.35)] transition duration-300'
+                : 'rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-300 backdrop-blur-md transition duration-300 hover:bg-white/15 hover:text-white'
+            }
           >
             {page}
           </button>
@@ -39,7 +39,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition duration-200 hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-slate-300 backdrop-blur-md transition duration-300 hover:bg-white/15 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
       >
         Next
       </button>

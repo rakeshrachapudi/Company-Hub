@@ -12,9 +12,8 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Close modal on Escape for a more complete product feel
     const handleEscape = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !isSubmitting) {
         onClose();
       }
     };
@@ -26,7 +25,7 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
     return () => {
       window.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, isSubmitting]);
 
   if (!isOpen) return null;
 
@@ -57,7 +56,6 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
       [name]: value
     }));
 
-    // Remove field error once the user starts correcting the input
     if (errors[name]) {
       setErrors((previous) => ({
         ...previous,
@@ -74,7 +72,6 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
     try {
       setIsSubmitting(true);
       await onAddCompany(formData);
-
       setFormData(initialFormData);
       setErrors({});
       onClose();
@@ -97,23 +94,37 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
     event.stopPropagation();
   };
 
+  const inputClassName =
+    'w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400 backdrop-blur-md transition duration-300 focus:border-indigo-300/60 focus:ring-2 focus:ring-indigo-400/40';
+
   return (
-    <>
-        <div
+    <div
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 px-4 backdrop-blur-sm"
     >
       <div
         onClick={handleModalClick}
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg transition-all duration-300"
+        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-2xl shadow-[0_30px_80px_rgba(15,23,42,0.45)]"
       >
-        <div className="flex items-start justify-between gap-4">
+        {/* Background glow adds premium depth without overusing color */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-10 top-0 h-28 w-28 rounded-full bg-indigo-500/20 blur-3xl" />
+          <div className="absolute right-0 top-10 h-32 w-32 rounded-full bg-blue-500/15 blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 h-24 w-24 rounded-full bg-violet-500/10 blur-3xl" />
+        </div>
+
+        <div className="relative flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+            <span className="inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-slate-200">
+              New Entry
+            </span>
+
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white">
               Add Company
             </h2>
-            <p className="mt-1 text-sm text-slate-600">
-              Add a new company to your directory with a clean, structured workflow.
+
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              Add a new company to the directory with a clean, premium glass workflow.
             </p>
           </div>
 
@@ -121,16 +132,16 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border border-white/10 bg-white/5 p-2 text-slate-300 transition duration-300 hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Close modal"
           >
             ✕
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit} className="relative mt-6 space-y-4">
           <div>
-            <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-900">
+            <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
               Company Name
             </label>
             <input
@@ -140,18 +151,15 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter company name"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-indigo-500"
+              className={inputClassName}
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-red-600">{errors.name}</p>
+              <p className="mt-1 text-xs text-rose-300">{errors.name}</p>
             )}
           </div>
 
           <div>
-            <label
-              htmlFor="location"
-              className="mb-2 block text-sm font-medium text-slate-900"
-            >
+            <label htmlFor="location" className="mb-2 block text-sm font-medium text-white">
               Location
             </label>
             <input
@@ -161,18 +169,15 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
               value={formData.location}
               onChange={handleChange}
               placeholder="Enter location"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-indigo-500"
+              className={inputClassName}
             />
             {errors.location && (
-              <p className="mt-1 text-xs text-red-600">{errors.location}</p>
+              <p className="mt-1 text-xs text-rose-300">{errors.location}</p>
             )}
           </div>
 
           <div>
-            <label
-              htmlFor="industry"
-              className="mb-2 block text-sm font-medium text-slate-900"
-            >
+            <label htmlFor="industry" className="mb-2 block text-sm font-medium text-white">
               Industry
             </label>
             <input
@@ -182,15 +187,15 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
               value={formData.industry}
               onChange={handleChange}
               placeholder="Enter industry"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-indigo-500"
+              className={inputClassName}
             />
             {errors.industry && (
-              <p className="mt-1 text-xs text-red-600">{errors.industry}</p>
+              <p className="mt-1 text-xs text-rose-300">{errors.industry}</p>
             )}
           </div>
 
           {errors.submit && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            <div className="rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
               {errors.submit}
             </div>
           )}
@@ -200,7 +205,7 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-2xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 transition duration-300 hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancel
             </button>
@@ -208,7 +213,7 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex items-center gap-2 rounded-2xl border border-indigo-300/20 bg-indigo-500/20 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:scale-[1.02] hover:bg-indigo-500/30 hover:shadow-[0_0_24px_rgba(99,102,241,0.24)] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting && (
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -219,8 +224,6 @@ const AddCompanyModal = ({ isOpen, onClose, onAddCompany }) => {
         </form>
       </div>
     </div>
-    </>
-    
   );
 };
 
