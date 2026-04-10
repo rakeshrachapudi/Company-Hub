@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import CompanyCard from './components/CompanyCard';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Filters from './components/Filters';
+import CompanyCard from './components/CompanyCard';
 import Pagination from './components/Pagination';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -36,36 +38,50 @@ function App() {
   }, []);
 
   const uniqueLocations = useMemo(() => {
-    return [...new Set(companies.map((company) => company.location))].sort((a, b) => a.localeCompare(b));
+    return [...new Set(companies.map((company) => company.location))].sort((a, b) =>
+      a.localeCompare(b)
+    );
   }, [companies]);
 
   const uniqueIndustries = useMemo(() => {
-    return [...new Set(companies.map((company) => company.industry))].sort((a, b) => a.localeCompare(b));
+    return [...new Set(companies.map((company) => company.industry))].sort((a, b) =>
+      a.localeCompare(b)
+    );
   }, [companies]);
 
   const filteredCompanies = useMemo(() => {
-    const searchedCompanies = companies.filter((company) => {
-      const matchesSearch = company.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesLocation = selectedLocation ? company.location === selectedLocation : true;
-      const matchesIndustry = selectedIndustry ? company.industry === selectedIndustry : true;
+    const result = companies.filter((company) => {
+      const matchesSearch = company.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      const matchesLocation = selectedLocation
+        ? company.location === selectedLocation
+        : true;
+
+      const matchesIndustry = selectedIndustry
+        ? company.industry === selectedIndustry
+        : true;
 
       return matchesSearch && matchesLocation && matchesIndustry;
     });
 
-    return searchedCompanies.sort((firstCompany, secondCompany) => {
+    return result.sort((a, b) => {
       if (sortOrder === 'asc') {
-        return firstCompany.name.localeCompare(secondCompany.name);
+        return a.name.localeCompare(b.name);
       }
 
-      return secondCompany.name.localeCompare(firstCompany.name);
+      return b.name.localeCompare(a.name);
     });
   }, [companies, searchTerm, selectedLocation, selectedIndustry, sortOrder]);
 
   useEffect(() => {
+    // Reset page whenever filter conditions change to avoid invalid page states
     setCurrentPage(1);
   }, [searchTerm, selectedLocation, selectedIndustry, sortOrder]);
 
   const totalPages = Math.ceil(filteredCompanies.length / ITEMS_PER_PAGE);
+
   const paginatedCompanies = filteredCompanies.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
@@ -80,17 +96,26 @@ function App() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 text-slate-900">
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <header className="mb-8 rounded-3xl bg-slate-900 px-6 py-8 text-white shadow-soft md:px-10">
-          <p className="mb-3 inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-blue-100">
-            Companies Directory
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">CompanyHub</h1>
-          <p className="mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-            Browse, search, filter, sort, and paginate company listings using a clean React and Tailwind UI powered by an Express backend.
-          </p>
-        </header>
+    <div className="min-h-screen bg-slate-50">
+      <Navbar />
+
+      <main className="max-w-7xl mx-auto px-6 py-8 space-y-6">
+        {/* Hero section: premium but restrained, using only one subtle gradient area */}
+        <section className="rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 text-white">
+          <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200 ring-1 ring-white/15">
+            Production-ready directory
+          </span>
+
+          <div className="mt-4 max-w-3xl">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Discover and manage companies with clarity.
+            </h1>
+            <p className="mt-3 text-sm text-slate-300">
+              CompanyHub helps teams browse, search, filter, and organize company
+              information through a premium, enterprise-grade directory experience.
+            </p>
+          </div>
+        </section>
 
         <Filters
           searchTerm={searchTerm}
@@ -106,49 +131,56 @@ function App() {
           onReset={handleResetFilters}
         />
 
-        <section className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">Available Companies</h2>
-            <p className="text-sm text-slate-500">
-              Showing {paginatedCompanies.length} of {filteredCompanies.length} matching companies.
-            </p>
+        <section id="companies" className="space-y-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-lg font-medium text-slate-900">Companies</h2>
+              <p className="mt-1 text-sm text-slate-600">
+                Showing {paginatedCompanies.length} of {filteredCompanies.length} matching companies.
+              </p>
+            </div>
+
+            <div className="inline-flex w-fit rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600">
+              {ITEMS_PER_PAGE} per page
+            </div>
           </div>
-          <span className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-soft">
-            {ITEMS_PER_PAGE} per page
-          </span>
+
+          {loading ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+              <p className="text-sm text-slate-600">Loading companies...</p>
+            </div>
+          ) : error ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+              <h3 className="text-lg font-medium text-slate-900">Unable to load data</h3>
+              <p className="mt-2 text-sm text-slate-600">{error}</p>
+            </div>
+          ) : filteredCompanies.length === 0 ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+              <h3 className="text-lg font-medium text-slate-900">No companies found</h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Try adjusting your search, filters, or sorting options.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {paginatedCompanies.map((company) => (
+                  <CompanyCard key={company.id} company={company} />
+                ))}
+              </div>
+
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
+          )}
         </section>
+      </main>
 
-        {loading ? (
-          <div className="mt-10 flex min-h-[240px] items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white text-lg font-medium text-slate-500">
-            Loading companies...
-          </div>
-        ) : error ? (
-          <div className="mt-10 rounded-3xl border border-red-200 bg-red-50 px-6 py-10 text-center text-red-700">
-            <h3 className="text-lg font-semibold">Something went wrong</h3>
-            <p className="mt-2 text-sm">{error}</p>
-          </div>
-        ) : filteredCompanies.length === 0 ? (
-          <div className="mt-10 rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center shadow-soft">
-            <h3 className="text-lg font-semibold text-slate-900">No companies found</h3>
-            <p className="mt-2 text-sm text-slate-500">Try changing the search term or clearing a filter.</p>
-          </div>
-        ) : (
-          <>
-            <section className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {paginatedCompanies.map((company) => (
-                <CompanyCard key={company.id} company={company} />
-              ))}
-            </section>
-
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        )}
-      </section>
-    </main>
+      <Footer />
+    </div>
   );
 }
 
