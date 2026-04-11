@@ -3,7 +3,7 @@ import React from "react";
 const Hero = () => {
   return (
     <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-8 text-white shadow-sm">
-      {/* Subtle glow overlays add depth without becoming flashy */}
+      
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-16 right-0 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
         <div className="absolute bottom-0 left-1/4 h-28 w-28 rounded-full bg-indigo-400/10 blur-3xl" />

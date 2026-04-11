@@ -22,7 +22,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Active link gets a subtle filled background instead of loud colors */}
+          
           <nav className="flex items-center gap-2">
             {navItems.map((item) => (
               <a
