@@ -14,12 +14,12 @@ const Filters = ({
   onReset
 }) => {
   const controlClassName =
-    'w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition duration-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500';
+    'w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 sm:py-3 text-sm text-slate-900 outline-none transition duration-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500';
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-4 sm:mb-6">
+        <div className="min-w-0">
           <h2 className="text-lg font-medium text-slate-900">Refine directory</h2>
           <p className="mt-1 text-sm text-slate-600">
             Search, filter, and sort company records using consistent controls.
@@ -29,13 +29,13 @@ const Filters = ({
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition duration-200 hover:scale-[1.02] hover:bg-indigo-700"
+          className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition duration-200 hover:scale-[1.02] hover:bg-indigo-700"
         >
           Reset Filters
         </button>
       </div>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="space-y-2">
           <label htmlFor="search" className="text-sm font-medium text-slate-900">
             Search by company name

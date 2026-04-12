@@ -75,24 +75,24 @@ app.post('/companies', async (req, res) => {
   }
 });
 
-app.delete('/companies/:id', async (req, res) => {
-  try {
-    const companyId = Number(req.params.id);
-    const companies = await readDatabase();
-    const companyToDelete = companies.find((company) => company.id === companyId);
+// app.delete('/companies/:id', async (req, res) => {
+//   try {
+//     const companyId = Number(req.params.id);
+//     const companies = await readDatabase();
+//     const companyToDelete = companies.find((company) => company.id === companyId);
 
-    if (!companyToDelete) {
-      return res.status(404).json({ message: 'Company not found' });
-    }
+//     if (!companyToDelete) {
+//       return res.status(404).json({ message: 'Company not found' });
+//     }
 
-    const updatedCompanies = companies.filter((company) => company.id !== companyId);
-    await writeDatabase(updatedCompanies);
+//     const updatedCompanies = companies.filter((company) => company.id !== companyId);
+//     await writeDatabase(updatedCompanies);
 
-    res.status(200).json({ message: 'Company deleted successfully', company: companyToDelete });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to delete company', error: error.message });
-  }
-});
+//     res.status(200).json({ message: 'Company deleted successfully', company: companyToDelete });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Failed to delete company', error: error.message });
+//   }
+// });
 
 app.listen(PORT, () => {
   console.log(`CompanyHub backend running on port ${PORT}`);

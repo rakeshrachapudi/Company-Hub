@@ -2,9 +2,9 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="grid gap-8 md:grid-cols-3">
+    <footer className="mt-12 sm:mt-16 border-t border-slate-200 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
           <div>
             <h3 className="text-sm font-semibold text-slate-900">CompanyHub</h3>
             <p className="mt-3 text-sm text-slate-600">
@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-slate-200 pt-6">
+        <div className="mt-6 sm:mt-8 border-t border-slate-200 pt-4 sm:pt-6">
           <p className="text-sm text-slate-600">
             © 2026 CompanyHub. All rights reserved.
           </p>

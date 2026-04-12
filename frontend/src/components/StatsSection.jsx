@@ -2,9 +2,9 @@ import React from "react";
 
 const StatsCard = ({ label, value, helper }) => {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm transition hover:shadow-md h-full">
       <p className="text-sm text-slate-600">{label}</p>
-      <h3 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">{value}</h3>
+      <h3 className="mt-2 text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">{value}</h3>
       <p className="mt-1 text-sm text-slate-600">{helper}</p>
     </div>
   );
@@ -12,7 +12,7 @@ const StatsCard = ({ label, value, helper }) => {
 
 const StatsSection = ({ totalCompanies, showingCount, currentPage, totalPages }) => {
   return (
-    <section className="grid gap-4 md:grid-cols-3">
+    <section className="grid gap-4 sm:gap-4 md:grid-cols-3">
       <StatsCard
         label="Total companies"
         value={totalCompanies}
